@@ -1,0 +1,24 @@
+.form-login-div {
+  display: block;
+  width: 80%;
+}
+
+.login-form {
+  width: 100%;
+  align-items: center;
+}
+.login-form-button {
+    color: black;
+    background-color: wheat;
+    width: 100%
+  }
+
+.title {
+    font-size: 25px;
+    padding-left: 60px;
+    text-align: center;
+}
+.button {
+  display: flex;
+  flex-direction: row;
+}

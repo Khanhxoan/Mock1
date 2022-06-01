@@ -1,0 +1,11 @@
+.question {
+    height: 300px;
+    width: 100%;
+    background-color: burlywood;
+}
+.card-question {
+    height: 100%;
+}
+.btn-question {
+    height: 50px;
+}

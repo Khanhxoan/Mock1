@@ -1,0 +1,10 @@
+.h1-setting {
+    text-align: center;
+    font-size: x-large;
+}
+.btn-setting {
+    color: aquamarine;
+    margin-top: 40px;
+    font-size: 16px;
+    font-family: 'Courier New', Courier, monospace;
+}
