@@ -1,27 +1,54 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import './LoginForm.css'
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { useAuth } from 'react-use-auth';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../redux/apiRequest';
 
 
 const LoginForm = () => {
-  const onFinish = async (values) => {
-    let user = {
-        username: values.username,
-        password: values.password
+  // const onFinish = async (values) => {
+  //   let user = {
+  //       username: values.username,
+  //       password: values.password
+  //   }
+  //   await axios
+  //       .post('https://fwa-ec-quiz-mock1.herokuapp.com/v1/auth/login', user)
+  //       .then( function (res) {
+  //         localStorage.setItem("user", JSON.stringify(res.data.user))
+  //         localStorage.setItem("token", JSON.stringify(res.data.tokens))
+  //         localStorage.setItem("role", JSON.stringify(res.data.user.role))
+  //       })
+  //   }
+    // const role = JSON.parse(localStorage.getItem('role')) 
+    // console.log(role);
+    // useCallback(() => {
+    //   switch (role) {
+    //     case 'user':
+    //       return <Navigate to='/setting' />
+    //     case 'admin':
+    //       return <Navigate to='/questions' />
+    //     default:
+    //       break;
+    //   }
+    // }, [role])
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+  const onFinish = (values) => {
+    const [username, password] = [values.username, values.password]
+    const newUser = {
+      username: username,
+      password: password
     }
-    await axios
-        .post('https://fwa-ec-quiz-mock1.herokuapp.com/v1/auth/login', user)
-        .then( function (res) {
-          localStorage.setItem("user", JSON.stringify(res.data.user))
-          localStorage.setItem("token", JSON.stringify(res.data.tokens))
-          localStorage.setItem("role", JSON.stringify(res.data.user.role))
-        })
-    }
-    const role = JSON.parse(localStorage.getItem('role')) 
+    loginUser(newUser, dispatch, navigate)
+  }
+
+
+
 
   return (
     <Form

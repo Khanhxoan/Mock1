@@ -2,43 +2,37 @@
 
 import './signup.css'
 import { useFormik, yupToFormErrors } from 'formik';
-import { memo } from 'react';
 import * as Yup from 'yup'
-import { useState } from 'react';
-import axios from 'axios';
-import { Navigate } from 'react-router-dom';
+import { registerUser } from '../../redux/apiRequest';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 // Search: regex for email address => để tìm dạng email cho form (matches)
 // Search: regex pattern for password => để tìm dạng password cho form (matches)
  
 
 // Cách 2: Sử dụng Formik và yup
-    // formik: Làm form đơn giản hơn 
-    // yup: để validate
 const Register = () => {
 
     // 1, Tạo 1 formik gán với useFormik 
-        // useFormik nhận đố số là 1 object initValues: chứa những thứ muốn có trong form
-            // những phần tử này là của formik ko liên quan đến state ở trên
-    const formik = useFormik({
+        const dispatch = useDispatch()
+        const navigate = useNavigate();
+
+          
+        const formik = useFormik({
         initialValues: {
             email: '',
             username: '',
             password: '',
         },
-        // Khai báo onSubmit cho formik => chính là hàm handleSubmit của formik
-        onSubmit: async (values) => {
-            let data = {
-                username: values.username,
-                password: values.password,
-                email: values.email
-            }
-            await axios
-                .post('https://fwa-ec-quiz-mock1.herokuapp.com/v1/auth/register', data)
-        },
-        // 3, Sử dụng Yub để Validate form
-            // Dùng validationSchema: Yup.object({})
-            // Trong Yup.object() nhận đối số là 1 object dùng để tạo những luật lệ cho việc validate 
+        onSubmit: (e) => {
+            const newUser = {
+                email: email, 
+                password: password,
+                username: username
+            };
+            registerUser(newUser, dispatch, navigate)
+        },        
         validationSchema: Yup.object({
             // .required để yêu cầu bắt buộc điền vào; .min: để yêu cầu độ dài tối thiểu
             username: Yup.string()
@@ -62,11 +56,6 @@ const Register = () => {
 
 
     const { email, username, password} = formik.values 
-    const [navigate, setNavigate] = useState(false)
-
-    if(navigate) {
-        return <Navigate to="/login" />
-    }
 
     return (
         <form className='infoform' onSubmit={formik.handleSubmit}>

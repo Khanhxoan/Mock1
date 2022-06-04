@@ -1,19 +1,19 @@
 import React from 'react';
 import { Layout, Menu, Breadcrumb, Button } from 'antd';
 import 'antd/dist/antd.css';
-import LoginForm from '../Component/login/LoginForm';
-import Setting from './User/Setting';
-import Register from '../Component/register/SigupForm';
 import {ImportOutlined} from '@ant-design/icons';
-import Score from './User/Score';
-import Questions from './User/Questions';
-import { Outlet, Route, Router, Routes } from 'react-router-dom';
-
+import { Outlet, Route, Router, Routes, Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import './layout.css'
+import Admin from './Admin/Admin-user';
 
 
 const { Header, Content, Footer } = Layout;
 
-const LayoutQuiz = () => (
+const LayoutQuiz = () => {
+  const user = useSelector(state => state.auth.login.currentUser);
+  
+  return (
   <div>
     <Layout>
       <Header
@@ -23,8 +23,19 @@ const LayoutQuiz = () => (
           width: '100%',
         }}
       >
-        <div className="logo"></div>
-        <Button icon = {<ImportOutlined style={{ fontSize: '16px', color: 'red' }}/>} >Logout</Button>
+      <nav className="navbar-container">
+        {user? (
+          <>
+          <p className="navbar-user">Hi, <span>{`${user.user.username} -- ${user.user.role}`}</span> </p>
+          <Link to="/logout" className="navbar-item" >Logout</Link>
+          </>
+        ) : (    
+          <>
+        <Link to="/" className="navbar-item"> Login </Link>
+        <Link to="/register" className="navbar-item"> Register</Link>
+        </>
+      )}
+      </nav>
       </Header>
       <Content
         className="site-layout"
@@ -55,6 +66,6 @@ const LayoutQuiz = () => (
   
   </div>
       
-);
+)};
 
 export default LayoutQuiz;
