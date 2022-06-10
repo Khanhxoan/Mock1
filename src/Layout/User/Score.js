@@ -20,6 +20,7 @@ const Score = () => {
     navigate('/setting')
   }
 
+  const result = Math.round((score.length/limit)*100 )
 return (
   <>
     <div className='total-score'>
@@ -32,7 +33,7 @@ return (
             '0%': '#108ee9',
             '100%': '#87d068',
           }}
-          percent={(score.length/limit)*100 }
+          percent={result}
       />
       <Button onClick={handleBackHome} className='btn-replay' type="primary" key="console" >
         Chơi lại nào
