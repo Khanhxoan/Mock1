@@ -1,5 +1,10 @@
 
 ### Component chứa những component về login và register
+- folder login: 
+    + login.js: component login
+    + tokenExpired: Kiểm tra hạn token
+- folder register:
+    + register.js: component đăng kí tài khoản
 ### Layout bao gồm:
 - Layout.js: Chứa layout chính của app
 - folder admin: Là layout của admin display
