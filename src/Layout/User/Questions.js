@@ -113,9 +113,6 @@ const Questions = () => {
             <Button onClick={handlePreview} className='btn-preview' type="primary" key="console">
                     Preview !
             </Button>
-            {/* <Button onClick={handleBackHome} className='btn-replay' type="primary" key="console" >
-                    Chơi lại nào !
-            </Button> */}
         </>)
         } 
         </div>

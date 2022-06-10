@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
-import { UserOutlined, LockOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import './LoginForm.css'
 import { Link, Navigate, useNavigate } from 'react-router-dom';
@@ -22,9 +22,6 @@ const LoginForm = () => {
     
   }
   
-
-
-
   return (
     <Form
       name="normal_login"

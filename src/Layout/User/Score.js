@@ -24,7 +24,7 @@ const Score = () => {
 return (
   <>
     <div className='total-score'>
-      <h1 className='h1-title'>Chúc mừng bạn đã hoàn thành bài test !!!</h1>
+      <h1 className='h1-title'>CHÚC MỪNG BẠN ĐÃ HOÀN THÀNH BÀI TEST</h1>
       <h1 className='h1-total'>Bạn đã làm đúng {score.length} / {limit} câu</h1>
       <Progress
           className='progress'

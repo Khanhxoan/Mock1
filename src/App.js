@@ -23,6 +23,7 @@ function App() {
   
   const dispatch = useDispatch()
 
+  // Refresh token
   useEffect(() => {
     if(accessToken && refreshToken) {
       tokenExpired(accessToken, () => {
@@ -30,7 +31,6 @@ function App() {
       })
     }
   }, [accessToken,refreshToken ])
-
 
   return (
       <div className="App">

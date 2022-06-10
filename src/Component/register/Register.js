@@ -22,9 +22,6 @@ const Register = () => {
     registerUser(newUser, dispatch, navigate)
     
   }
-  
-
-
 
   return (
     <Form

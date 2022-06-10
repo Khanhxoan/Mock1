@@ -12,5 +12,4 @@ const tokenExpired = (accessToken, callback) => {
     }, timeLeft);
   };
 
-
   export default tokenExpired

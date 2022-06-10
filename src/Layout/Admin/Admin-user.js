@@ -7,32 +7,22 @@ import { Button, Table, Space, Modal, Form, Input, Image } from 'antd';
 import axios from 'axios';
 import { UserAddOutlined, RollbackOutlined } from '@ant-design/icons';
 
-
-
 const AdminUser = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [currentPageSize, setCurrentPageSize] = useState(10)
     const [totalRecord, setTotalRecord] = useState(10)
     const [dataSource , setDataSource] = useState([])
     
-
-    // const accessToken = useSelector(state => state?.auth.login?.currentUser.tokens.access.token)
-    // const refreshToken = useSelector(state => state?.auth.login?.currentUser.tokens.refresh.token)
     const tokens = useSelector(state => state?.auth.login?.currentUser.tokens)
     const accessToken = useSelector(state => state?.auth.login?.currentUser?.tokens.access.token)
 
     const totalUsers = useSelector(state => state?.getUsers.users?.allUsers?.totalResults)
     const userList = useSelector(state => state?.getUsers.users?.allUsers?.results)
 
-
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [flag, setFlag] = useState(false)
     const [isModalVisible, setIsModalVisible] = useState(false);
-    
-    //tạo 1 axios jwt
-    let axiosJWT = axios.create()
-
 
     const handleBack = () => {
       navigate('/admin')
@@ -48,7 +38,7 @@ const AdminUser = () => {
         navigate('/')
       }
       if(accessToken){
-        getUsers(accessToken, dispatch, currentPageSize , currentPage, axiosJWT) 
+        getUsers(accessToken, dispatch, currentPageSize , currentPage) 
           .then(res=> setTotalRecord(res?.totalResults))
           
       }
@@ -57,7 +47,7 @@ const AdminUser = () => {
     const handPageChange = (e) => {
       setCurrentPage(e.current)
       setCurrentPageSize(e.pageSize)
-      getUsers(accessToken, dispatch, currentPageSize , e.current,axiosJWT)
+      getUsers(accessToken, dispatch, currentPageSize , e.current)
         .then((res)=> console.log(res))
     
     }
