@@ -1,24 +1,25 @@
-import React, { useCallback, useEffect } from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
-import { UserOutlined, LockOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import React from 'react';
+import { Form, Input, Button } from 'antd';
+import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
-import './LoginForm.css'
-import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../../redux/apiRequest';
+import '../login/LoginForm.css'
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { registerUser } from '../../redux/apiRequest';
 
 
-const LoginForm = () => {
+const Register = () => {
   
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const onFinish = (values) => {
-    const [username, password] = [values.username, values.password]
+    const [username, password, email] = [values.username, values.password, values.email]
     const newUser = {
       username: username,
-      password: password
+      password: password,
+      email: email
     }
-    loginUser(newUser, dispatch, navigate)
+    registerUser(newUser, dispatch, navigate)
     
   }
   
@@ -34,7 +35,7 @@ const LoginForm = () => {
       }}
       onFinish={onFinish}
     >
-      <h1 className='title'>Login to quiz zui zẻ :)))</h1>
+      <h1 className='title'>Register</h1>
 
       <Form.Item
       className='input-login'
@@ -65,20 +66,31 @@ const LoginForm = () => {
           placeholder="Password"
         />
       </Form.Item>
-      <Form.Item >
-        <Form.Item name="remember" valuePropName="checked" noStyle className='remember'>
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
+      <Form.Item
+      className='input-login'
+        name="email"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your email!',
+          },
+        ]}
+      >
+        <Input
+          className='input-login'
+          prefix={<MailOutlined />}
+          type="email"
+          placeholder="Password"
+        />
       </Form.Item>
 
       <Form.Item className='button' >
         <Button type="primary" htmlType="submit" className="login-form-button">
-          Log in
+          Register
         </Button>
-         <br/> Or <Link className='a' to="/register">register now!</Link>
       </Form.Item>
     </Form>
   );
 };
 
-export default LoginForm;
+export default Register;

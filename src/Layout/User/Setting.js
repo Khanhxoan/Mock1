@@ -1,40 +1,41 @@
-import React, { useEffect } from 'react';
-import { Pagination } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { InputNumber, Space } from 'antd';
 import { Button } from 'antd';
 import './setting.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getAmountQuestion } from '../../redux/apiRequest';
+import { SettingOutlined } from '@ant-design/icons';
 
 const Setting = () => {
-
+  // state redux
   const user = useSelector( state => state?.auth.login?.currentUser.tokens?.access)
-  // const questionList = useSelector(state => state?.getAmountQuestion?.questions?.allQuestions?.results)
+  const totalResults = useSelector(state => state?.getAmountQuestion?.questions?.allQuestions?.totalResults)
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  
-    const handle5Qquestions = async () => {
-      await getAmountQuestion(user.token, dispatch, 5, 2)
-      navigate ('/questions')
-    }
-
-
+  // handle get amount question
+  const [limit, setLimit] = useState(5)
+  const handleAmountQquestions = async () => {
+    await getAmountQuestion(user.token, dispatch,limit, 1)
+    navigate ('/questions')
+  }
 
   return (
-    <div>
+    <div className='setting'>
         <h1 className='h1-setting'>Bạn muốn chơi bao nhiêu câu nào?</h1>
-        <Button onClick={handle5Qquestions} type="primary" block className='btn-setting'>
-            5 Questions
-        </Button>
-
-        <Button type="primary" block className='btn-setting'>
-            10 Questions
-        </Button>
-
-        <Button type="primary" block className='btn-setting'>
-            15 Questions
-        </Button>
+        <Space className='space'>
+          <InputNumber min={1} max={totalResults} value={limit} onChange={setLimit} className= "InputNumber" />
+          <Button
+            onClick={handleAmountQquestions}
+            className='btn_amount'
+          >
+            Go
+          </Button>
+          <br/>
+        </Space>
+        <SettingOutlined  style={{fontSize: 200}} spin={true} />
 
     </div>
   )

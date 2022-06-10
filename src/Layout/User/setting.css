@@ -2,9 +2,34 @@
     text-align: center;
     font-size: x-large;
 }
-.btn-setting {
+/* .btn-setting {
     color: aquamarine;
     margin-top: 40px;
     font-size: 16px;
     font-family: 'Courier New', Courier, monospace;
+} */
+
+.setting {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.InputNumber {
+    color: rgb(51, 48, 43);
+    width: 300px;
+    font-size: 25px;
+    font-family: 'Courier New', Courier, monospace;
+}
+.btn_amount {
+    width: 100px;
+    font-size: larger;
+    font-family: 'Courier New', Courier, monospace;
+    height: 42px;
+    color: white;
+    background-color: rgb(96, 96, 186);
+}
+.space {
+    height: 100px;
+    margin-bottom: 50px;
 }

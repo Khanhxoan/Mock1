@@ -12,9 +12,9 @@ const Admin = () => {
         navigate('/admin/questions')
     }
   return (
-    <Space size='small'>
-        <Button onClick={redirectUsers}>Users</Button>
-        <Button onClick={redirectQuestions}>Questions</Button>
+    <Space size='small' className="space-admin">
+        <Button onClick={redirectUsers} className="btn-admin">Users</Button>
+        <Button onClick={redirectQuestions} className="btn-admin">Questions</Button>
         <Outlet/>
     </Space>
   )

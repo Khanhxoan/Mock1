@@ -1,17 +1,39 @@
 import React from 'react';
-import { Layout, Menu, Breadcrumb, Button } from 'antd';
+import { Avatar, Dropdown, Layout, Menu, Tooltip} from 'antd';
 import 'antd/dist/antd.css';
-import {ImportOutlined} from '@ant-design/icons';
-import { Outlet, Route, Router, Routes, Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import './layout.css'
-import Admin from './Admin/Admin-user';
+import { logoutUser } from '../redux/apiRequest';
 
 
 const { Header, Content, Footer } = Layout;
-
 const LayoutQuiz = () => {
-  const user = useSelector(state => state.auth.login.currentUser);
+  // state redux
+  const user = useSelector(state => state?.auth.login.currentUser);
+  const accessToken = useSelector(state => state?.auth.login?.currentUser?.tokens.access.token)
+  const refreshToken = useSelector(state => state?.auth.login?.currentUser?.tokens.refresh.token)
+  
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+
+  // handle logout
+  const handleLogout = async () => {
+    await logoutUser(accessToken, refreshToken, dispatch, navigate)
+  }
+
+  // Dropdown avatar
+  const menu = (
+    <Menu
+      items={[
+        {
+          key: '1',
+          label: (
+            <Link  to="/" className="navbar-item" onClick={handleLogout} color='black'>Log out</Link>
+          ),
+        }]}
+    />
+  );
   
   return (
   <div>
@@ -26,14 +48,16 @@ const LayoutQuiz = () => {
       <nav className="navbar-container">
         {user? (
           <>
+          <Dropdown overlay={menu} placement="bottomLeft" arrow>
+            <Avatar shape="square" size={65} className='avatar' src={user.user.avatar} />
+          </Dropdown>
           <p className="navbar-user">Hi, <span>{`${user.user.username} -- ${user.user.role}`}</span> </p>
-          <Link to="/logout" className="navbar-item" >Logout</Link>
           </>
         ) : (    
           <>
-        <Link to="/" className="navbar-item"> Login </Link>
-        <Link to="/register" className="navbar-item"> Register</Link>
-        </>
+            <Link to="/" className="navbar-item"> Login </Link>
+            <Link to="/register" className="navbar-item"> Register</Link>
+          </>
       )}
       </nav>
       </Header>
@@ -60,7 +84,7 @@ const LayoutQuiz = () => {
           textAlign: 'center',
         }}
       >
-      Chúc các bạn có một ngày thật vui vẻ !!!
+        Chúc các bạn có một ngày thật vui vẻ !!!
       </Footer>
     </Layout>
   

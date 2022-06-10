@@ -2,8 +2,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import './Admin.css'
 import { useEffect, useState } from 'react';
-import { getUsers } from '../../redux/apiRequest';
-import { Button, Table, Space } from 'antd';
+import { createUser, getUsers, refresh } from '../../redux/apiRequest';
+import { Button, Table, Space, Modal, Form, Input, Image } from 'antd';
+import axios from 'axios';
+import { UserAddOutlined, RollbackOutlined } from '@ant-design/icons';
+
 
 
 const AdminUser = () => {
@@ -13,11 +16,24 @@ const AdminUser = () => {
     const [dataSource , setDataSource] = useState([])
     
 
-    const user = useSelector(state => state?.auth.login?.currentUser.tokens?.access)
+    // const accessToken = useSelector(state => state?.auth.login?.currentUser.tokens.access.token)
+    // const refreshToken = useSelector(state => state?.auth.login?.currentUser.tokens.refresh.token)
+    const tokens = useSelector(state => state?.auth.login?.currentUser.tokens)
+    const accessToken = useSelector(state => state?.auth.login?.currentUser?.tokens.access.token)
+
+    const totalUsers = useSelector(state => state?.getUsers.users?.allUsers?.totalResults)
     const userList = useSelector(state => state?.getUsers.users?.allUsers?.results)
+
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [flag, setFlag] = useState(false)
+    const [isModalVisible, setIsModalVisible] = useState(false);
     
+    //tạo 1 axios jwt
+    let axiosJWT = axios.create()
+
+
     const handleBack = () => {
       navigate('/admin')
     }
@@ -28,46 +44,138 @@ const AdminUser = () => {
     },[userList])
     
     useEffect(() => {
-      if(!user) {
+      if(!tokens) {
         navigate('/')
       }
-      if(user.token){
-        getUsers(user.token, dispatch, currentPageSize , currentPage) 
-          .then(res=> setTotalRecord(res.totalResults))
+      if(accessToken){
+        getUsers(accessToken, dispatch, currentPageSize , currentPage, axiosJWT) 
+          .then(res=> setTotalRecord(res?.totalResults))
+          
       }
-    },[])
+    },[flag])
+
     const handPageChange = (e) => {
       setCurrentPage(e.current)
       setCurrentPageSize(e.pageSize)
-      getUsers(user.token, dispatch, currentPageSize , e.current)
+      getUsers(accessToken, dispatch, currentPageSize , e.current,axiosJWT)
         .then((res)=> console.log(res))
     
     }
+
+    // column của bảng
     const columns = [
       {
-        title: 'username',
+        title: 'Username',
         dataIndex: 'username',
         
       },
       {
-        title: 'email',
+        title: 'Email',
         dataIndex: 'email',
         
       },
       {
-        title: 'role',
+        title: 'Role',
         dataIndex: 'role',
       },
       {
-        title: 'score',
-        dataIndex: 'score',
+        title: 'Avatar',
+        dataIndex: 'avatar',
+        render: (_, record) => (
+          <Image src={record.avatar} width={80}/>
+        )
       }]
+
+    const handleCreateUser = async (values) => {
+      const newUser = {
+        username: values.username,
+        password: values.password,
+        email: values.email,
+        role: values.role,
+      }
+      console.log(newUser);
+      await createUser(accessToken, newUser, dispatch)
+      setFlag(!flag)
+      setIsModalVisible(false)
+
+    }
+
+    const showModal = () => {
+      setIsModalVisible(true);
+    };
+    
+    const handleCancel = () => {
+      setIsModalVisible(false);
+    };
+  
     return (
       <>
-        <Button onClick={handleBack}>Back</Button>
+        <Button onClick={handleBack} icon={<RollbackOutlined />} />
+        <h1 className='h1'>List of Registers</h1>
         <Table columns={columns} dataSource={dataSource} onChange={handPageChange} pagination={{total: totalRecord, current: currentPage, pageSize: currentPageSize, showLessItems: true, showSizeChanger: true}} />
+        <Button onClick={showModal} icon={<UserAddOutlined />}/> 
+        <h1 className='h1'>Tổng số user: {totalUsers}</h1>
+        <Modal title="Basic Modal" visible={isModalVisible} onCancel={handleCancel}>
+          <Form onFinish={handleCreateUser}>
+              <Form.Item
+                  name="username"
+                  rules={[
+                  {
+                      required: true,
+                      message: 'Please input username',
+                  },
+                  ]}
+              >
+                  <Input placeholder="Username" />
+              </Form.Item>
+              <Form.Item
+                  name="password"
+                  rules={[
+                  {
+                      required: true,
+                      message: 'Please input password',
+                  },
+                  ]}
+              >
+                  <Input
+                  placeholder="Password"
+                  />
+              </Form.Item>
+              <Form.Item
+                  name="email"
+                  rules={[
+                  {
+                      required: true,
+                      message: 'Please input email',
+                  },
+                  ]}
+              >
+                  <Input
+                  placeholder="Email"
+                  />
+              </Form.Item>
+              <Form.Item
+                  name="role"
+                  rules={[
+                  {
+                      required: true,
+                      message: 'Please input role',
+                  },
+                  ]}
+              >
+                  <Input
+                  placeholder="role"
+                  />
+              </Form.Item>
+              <Form.Item className='button' >
+                  <Button type="primary" htmlType="submit" >
+                      Done
+                  </Button>
+              </Form.Item>
+          </Form>
+        </Modal>
       </>
     )
 }
 
-export default AdminUser
+export default AdminUser  

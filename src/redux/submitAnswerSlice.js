@@ -1,35 +1,43 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
-const authSlice = createSlice({
-    name: 'auth',
+const submitAnswerSlice = createSlice({
+    name: 'submit',
     initialState: {
         submit: {
-            submit: null,
             isFetching: false, 
-            error: false
-        },
-    },
+            success: false,
+            error: false,
+            score: []
+    }},
     reducers: {
         submitStart: (state) => {
             state.submit.isFetching = true
+            state.submit.success = false
         },
         submitSuccess: (state, action) => {
             state.submit.isFetching = false
-            state.submit.currentUser = action.payload
             state.submit.error = false
+            state.submit.success = true
+            state.submit.score = action.payload?.filter((e) =>  e.result === true)
         },
         submitFailed: (state) => {
             state.submit.isFetching = false
             state.submit.error = true
-        },
+            state.submit.success = false
+
+        }, 
+        resetScore: (state) => {
+            state.submit.score = []
+        }
+              
     }
 });
 
 export const {
     submitSuccess, 
     submitFailed,
-    submitStart,
-} = authSlice.actions;
+    submitStart,resetScore
+} = submitAnswerSlice.actions;
 
-export default authSlice.reducer
+export default submitAnswerSlice.reducer

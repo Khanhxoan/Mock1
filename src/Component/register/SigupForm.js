@@ -75,7 +75,7 @@ const Register = () => {
             />
             {/* // 4, Hiển thị lỗi name */}
             {formik.errors.username && (
-                <p className='errorMsg'> {username} </p>
+                <p className='errorMsg'> {formik.errors.name} </p>
             )} 
 
             <label> Email Address </label>
@@ -88,7 +88,7 @@ const Register = () => {
                 value={email}
             />
             {formik.errors.email && (
-                <p className='errorMsg'> {email} </p>
+                <p className='errorMsg'> {formik.errors.email} </p>
             )} 
             
             <label> Password </label>
@@ -101,7 +101,7 @@ const Register = () => {
                 value={password}
             />
             {formik.errors.password && (
-                <p className='errorMsg'> {password} </p>
+                <p className='errorMsg'> {formik.errors.password} </p>
             )} 
 
             <button type="submit"> Continue </button>
