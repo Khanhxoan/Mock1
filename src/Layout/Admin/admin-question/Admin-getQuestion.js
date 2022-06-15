@@ -531,11 +531,22 @@ const AdminQuestions = () => {
           <Form.Item
             name="answer2"
             label="Answer2"
+            dependencies={["answer1"]}
             rules={[
               {
                 required: true,
                 message: "Please input answer 2",
               },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("answer1") !== value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    new Error("This answer has been already added")
+                  );
+                },
+              }),
             ]}
           >
             <Input
@@ -552,11 +563,32 @@ const AdminQuestions = () => {
           <Form.Item
             name="answer3"
             label="Answer3"
+            dependencies={["answer1", "answer2"]}
             rules={[
               {
                 required: true,
                 message: "Please input answer 3",
               },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("answer1") !== value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    new Error("This answer has been already added")
+                  );
+                },
+              }),
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("answer2") !== value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    new Error("This answer has been already added")
+                  );
+                },
+              }),
             ]}
           >
             <Input
@@ -573,11 +605,38 @@ const AdminQuestions = () => {
           <Form.Item
             name="answer4"
             label="Answer4"
+            dependencies={["answer1", "answer2", "answer3"]}
             rules={[
-              {
-                required: true,
-                message: "Please input answer 4",
-              },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("answer1") !== value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    new Error("This answer has been already added")
+                  );
+                },
+              }),
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("answer2") !== value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    new Error("This answer has been already added")
+                  );
+                },
+              }),
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("answer3") !== value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    new Error("This answer has been already added")
+                  );
+                },
+              }),
             ]}
           >
             <Input
