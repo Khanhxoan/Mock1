@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { UserOutlined, LockOutlined, SmileOutlined } from "@ant-design/icons";
 import "antd/dist/antd.css";
 import "./LoginForm.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -28,7 +28,7 @@ const LoginForm = () => {
       }}
       onFinish={onFinish}
     >
-      <h1 className="title">Login to quiz zui zẻ :)))</h1>
+      <h1 className="title">Login to quiz zui zẻ {<SmileOutlined />}</h1>
 
       <Form.Item
         className="input-login"

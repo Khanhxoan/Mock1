@@ -5,7 +5,7 @@ import {
   createUser,
   getUsers,
   updateUser,
-} from "../../redux/apiRequest";
+} from "../../../redux/apiRequest";
 import {
   Button,
   Table,

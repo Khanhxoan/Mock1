@@ -10,17 +10,20 @@
   font: bold;
   font-size: 30px;
   font-family: sans-serif;
+  text-align: center;
 }
 .h1-total {
   font-size: 20px;
   color: rgb(93, 148, 66);
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .btn-replay {
   border-radius: 5px;
   background-color: rgb(128, 84, 109);
-  width: 15%;
+  width: 100px;
   height: 40px;
   margin-top: 10px;
+  text-align: center;
 }

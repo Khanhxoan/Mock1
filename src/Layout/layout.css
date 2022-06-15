@@ -1,6 +1,7 @@
 .navbar-container {
   display: flex;
   flex-direction: row;
+  width: 400px
 }
 .navbar-home {
   color: rgb(163, 162, 162);
@@ -18,6 +19,7 @@
   color: rgb(0, 154, 165);
   font-size: large;
   margin-right: 20px;
+  text-align: justify;
 }
 .navbar-logout {
   color: rgb(156, 156, 156);

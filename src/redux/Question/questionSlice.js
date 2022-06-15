@@ -60,8 +60,8 @@ const questionSlice = createSlice({
     getDetailSuccess: (state, action) => {
       state.getDetail.isFetching = false;
       state.getDetail.error = false;
-      state.getDetail.success = true;
       state.getDetail.questionInfor = action.payload;
+      state.getDetail.success = true;
     },
     getDetailFailed: (state) => {
       state.getDetail.isFetching = false;

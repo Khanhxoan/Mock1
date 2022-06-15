@@ -2,7 +2,7 @@ import { Button, Form, Input, Modal, Table, Tooltip, Typography, Popconfirm, Sel
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { createQuestion, deleteQuestion, editQuestion, getQuestions } from "../../redux/apiRequest";
+import { createQuestion, deleteQuestion, editQuestion, getQuestions } from "../../../redux/apiRequest";
 import { ExclamationCircleOutlined, EditOutlined, RollbackOutlined, DeleteOutlined } from "@ant-design/icons";
 
 import { Option } from "antd/lib/mentions";

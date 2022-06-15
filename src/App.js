@@ -4,16 +4,16 @@ import LayoutQuiz from "./Layout/Layout";
 import { Route, Routes } from "react-router-dom";
 import Setting from "./Layout/User/Setting";
 import Questions from "./Layout/User/Questions";
-import AdminUser from "./Layout/Admin/Admin-getUser";
+import AdminUser from "./Layout/Admin/admin-user/Admin-getUser";
 import Admin from "./Layout/Admin/Admin";
-import AdminQuestions from "./Layout/Admin/Admin-getQuestion";
+import AdminQuestions from "./Layout/Admin/admin-question/Admin-getQuestion";
 import Register from "./Component/register/Register";
 import { useDispatch, useSelector } from "react-redux";
 import { refresh } from "./redux/apiRequest";
 import { useEffect } from "react";
 import NotFoundPage from "./Layout/NotFoundPage";
 import tokenExpired from "./Component/login/tokenExpired";
-import { DirectRole, GuardAdmin, GuardUser } from "./RouteGuard";
+import { DirectRole, GuardAdmin, GuardUser } from "./Component/RouteGuard";
 import { Spin } from "antd";
 
 function App() {
@@ -59,9 +59,6 @@ function App() {
   const isFetchingEditQuestion = useSelector(
     (state) => state?.question.edit?.isFetching
   );
-  const isFetchingGetDetailQuestion = useSelector(
-    (state) => state?.question.getDetail?.isFetching
-  );
   const isFetchingDeleteQuestion = useSelector(
     (state) => state?.question.delete?.isFetching
   );
@@ -79,7 +76,6 @@ function App() {
     isFetchingSubmitAnswer ||
     isFetchingCreateQuestion ||
     isFetchingEditQuestion ||
-    isFetchingGetDetailQuestion ||
     isFetchingDeleteQuestion ||
     isFetchingUpdateUser;
 
