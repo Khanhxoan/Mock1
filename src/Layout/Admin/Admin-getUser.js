@@ -292,7 +292,7 @@ const AdminUser = () => {
         />
       </Form>
       <Modal
-        title="Basic Modal"
+        title="Add new user"
         visible={isModalVisible}
         footer={null}
         closable={null}
@@ -335,7 +335,7 @@ const AdminUser = () => {
               },
             ]}
           >
-            <Input placeholder="Email" />
+            <Input placeholder="Email" type="email" />
           </Form.Item>
           <Form.Item
             className="input-container"

@@ -153,6 +153,9 @@ export const createUser = async (accessToken, newUser, dispatch) => {
     message.success("Add a new user success")
   } catch (err) {
     dispatch(createUsersFailed());
+    message.error({
+      content: err.response.data.message
+    })
   }
 };
 

@@ -6,7 +6,6 @@
 
 .title {
     font-size: 25px;
-    padding-left: 60px;
     text-align: center;
 }
 .button {
@@ -14,7 +13,7 @@
   flex-direction: row;
 }
 .login-form {
-  width: 500px;
+  width: 460px;
   justify-content: center;
   margin: auto;
   

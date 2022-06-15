@@ -42,7 +42,7 @@ const Setting = () => {
         </Button>
         <br />
       </Space>
-      <SettingOutlined style={{ fontSize: 100 }} spin={true} />
+      <SettingOutlined style={{ fontSize: 70 }} spin={true} />
     </div>
   );
 };

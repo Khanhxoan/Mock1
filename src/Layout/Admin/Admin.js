@@ -17,11 +17,11 @@ const Admin = () => {
   return (
     <Space size='small' className="space-admin">
       <div className='item'>
-        <UserOutlined onClick={redirectUsers} className='user' title="Users" style={{fontSize: 200}}/>
+        <UserOutlined onClick={redirectUsers} className='user' title="Users" style={{fontSize: 100}}/>
         <h1 className='user' >USERS</h1>
       </div>
       <div className='item'>
-        <QuestionOutlined  onClick={redirectQuestions} className="admin-question" title="Questions" style={{fontSize: 200}}/>
+        <QuestionOutlined  onClick={redirectQuestions} className="admin-question" title="Questions" style={{fontSize: 100}}/>
         <h1 className="admin-question">QUESTIONS</h1>
       </div>
       <Outlet/>

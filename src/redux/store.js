@@ -19,6 +19,15 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
+const rootReducer = combineReducers({
+  auth: authReducer,
+  getUsers: getUsersReducer,
+  getQuestions: getQuestionsReducer,
+  getAmountQuestion: getAmountQuestionReducer,
+  submit: submitAnswerSlice,
+  question: questionSliceReducer,
+});
+
 const persistConfig = {
   key: "root",
   version: 1,
@@ -32,14 +41,6 @@ const persistConfig = {
     }),
   ],
 };
-const rootReducer = combineReducers({
-  auth: authReducer,
-  getUsers: getUsersReducer,
-  getQuestions: getQuestionsReducer,
-  getAmountQuestion: getAmountQuestionReducer,
-  submit: submitAnswerSlice,
-  question: questionSliceReducer,
-});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

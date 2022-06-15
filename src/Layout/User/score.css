@@ -4,7 +4,7 @@
   flex-direction: column;
   height: 400px;
   align-items: center;
-  background-color: rgb(79, 121, 102);
+  background-color: rgb(189, 214, 206);
 }
 .h1-title {
   font: bold;
@@ -13,13 +13,13 @@
 }
 .h1-total {
   font-size: 20px;
-  color: rgb(103, 179, 65);
+  color: rgb(93, 148, 66);
   margin-bottom: 20px;
 }
 
 .btn-replay {
   border-radius: 5px;
-  background-color: rgb(109, 114, 3);
+  background-color: rgb(128, 84, 109);
   width: 15%;
   height: 40px;
   margin-top: 10px;
