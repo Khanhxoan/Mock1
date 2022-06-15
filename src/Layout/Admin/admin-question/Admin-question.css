@@ -1,13 +1,12 @@
-
 .btn-submitCreateQuestion {
-    width: 80px;
-    margin-right: 10px;
+  width: 80px;
+  margin-right: 10px;
 }
 .header-tablequestion {
-    display: flex;
+  display: flex;
 }
 .btn-addquesiton {
-    margin: auto;
-    margin-bottom: 10px;
-    width: 150px;
+  margin: auto;
+  margin-bottom: 10px;
+  width: 150px;
 }

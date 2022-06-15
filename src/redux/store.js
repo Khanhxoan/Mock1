@@ -1,10 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import authReducer from "./User/authSlice";
-import getUsersReducer from "./User/getUserSlice";
-import getQuestionsReducer from "./Question/getQuestionsSlice";
-import getAmountQuestionReducer from "./Question/getAmountQuestionSlice";
-import submitAnswerSlice from "./Question/submitAnswerSlice";
-import questionSliceReducer from "./Question/questionSlice";
+import authReducer from "./UserSlice/authSlice";
+import getUsersReducer from "./UserSlice/getUserSlice";
+import getQuestionsReducer from "./QuestionSlice/getQuestionsSlice";
+import getAmountQuestionReducer from "./QuestionSlice/getAmountQuestionSlice";
+import submitAnswerSlice from "./QuestionSlice/submitAnswerSlice";
+import questionSliceReducer from "./QuestionSlice/questionSlice";
 import { encryptTransform } from "redux-persist-transform-encrypt";
 // import redux-persist
 import {

@@ -12,12 +12,12 @@ import {
   logoutStart,
   logoutSuccess,
   logoutFailed,
-} from "./User/authSlice";
+} from "./UserSlice/authSlice";
 import {
   getQuestionsFailed,
   getQuestionsStart,
   getQuestionsSuccess,
-} from "./Question/getQuestionsSlice";
+} from "./QuestionSlice/getQuestionsSlice";
 import {
   getUsersStart,
   getUsersSuccess,
@@ -28,7 +28,7 @@ import {
   updateUserStart,
   updateUserSuccess,
   updateUserFailed,
-} from "./User/getUserSlice";
+} from "./UserSlice/getUserSlice";
 import {
   createFailed,
   createStart,
@@ -42,8 +42,8 @@ import {
   getDetailFailed,
   getDetailStart,
   getDetailSuccess,
-} from "./Question/questionSlice";
-import { submitFailed, submitStart, submitSuccess } from "./Question/submitAnswerSlice";
+} from "./QuestionSlice/questionSlice";
+import { submitFailed, submitStart, submitSuccess } from "./QuestionSlice/submitAnswerSlice";
 import { message, Modal } from "antd";
 import axios from "axios";
 

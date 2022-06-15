@@ -2,7 +2,7 @@ import { Button, Progress } from "antd";
 import "antd/dist/antd.css";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { resetScore } from "../../redux/Question/submitAnswerSlice";
+import { resetScore } from "../../redux/QuestionSlice/submitAnswerSlice";
 import "./score.css";
 
 const Score = () => {

@@ -1,16 +1,38 @@
-import { Button, Form, Input, Modal, Table, Tooltip, Typography, Popconfirm, Select } from "antd";
-import React, { useEffect, useState } from "react";
+import {
+  Button,
+  Form,
+  Input,
+  Modal,
+  Table,
+  Tooltip,
+  Typography,
+  Popconfirm,
+  Select,
+  Space,
+} from "antd";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { createQuestion, deleteQuestion, editQuestion, getQuestions } from "../../../redux/apiRequest";
-import { ExclamationCircleOutlined, EditOutlined, RollbackOutlined, DeleteOutlined } from "@ant-design/icons";
-
+import {
+  createQuestion,
+  deleteQuestion,
+  editQuestion,
+  getQuestions,
+} from "../../../redux/apiRequest";
+import {
+  ExclamationCircleOutlined,
+  EditOutlined,
+  RollbackOutlined,
+  DeleteOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import Highlighter from "react-highlight-words";
 import { Option } from "antd/lib/mentions";
 import "./Admin-question.css";
 
 const AdminQuestions = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentPageSize, setCurrentPageSize] = useState(10);
+  const [currentPageSize, setCurrentPageSize] = useState(200);
   const [totalRecord, setTotalRecord] = useState(10);
   const [dataSource, setDataSource] = useState();
 
@@ -32,14 +54,13 @@ const AdminQuestions = () => {
   const dispatch = useDispatch();
 
   const [flag, setFlag] = useState(false);
-  
+
   const [answers, setAnswers] = useState({
     answer1: "",
     answer2: "",
     answer3: "",
     answer4: "",
   });
-
 
   const isEditing = (record) => record.id === editingId;
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -97,7 +118,7 @@ const AdminQuestions = () => {
   const handPageChange = (e) => {
     setCurrentPage(e.current);
     setCurrentPageSize(e.pageSize);
-    getQuestions(user.token, dispatch, currentPageSize, e.current);
+    // getQuestions(user.token, dispatch, currentPageSize, e.current);
   };
 
   // handle delete
@@ -177,6 +198,117 @@ const AdminQuestions = () => {
     setFlag(!flag);
     setAnswers({ answer1: "", answer2: "", answer3: "", answer4: "" });
   };
+  // ----------Handle search, reset
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef(null);
+
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText("");
+  };
+
+  // ---------- get columnSearchProps
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
+      <div
+        style={{
+          padding: 8,
+        }}
+      >
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{
+            marginBottom: 8,
+            display: "block",
+          }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({
+                closeDropdown: false,
+              });
+              setSearchText(selectedKeys[0]);
+              setSearchedColumn(dataIndex);
+            }}
+          >
+            Filter
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined
+        style={{
+          color: filtered ? "#1890ff" : undefined,
+          fontSize: 16,
+        }}
+      />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{
+            backgroundColor: "#ffc069",
+            padding: 0,
+          }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ""}
+        />
+      ) : (
+        text
+      ),
+  });
+
+  // -------------
 
   const EditableCell = ({
     editing,
@@ -218,6 +350,7 @@ const AdminQuestions = () => {
       dataIndex: "question",
       witdh: "20%",
       editable: true,
+      ...getColumnSearchProps("question"),
     },
     {
       title: "Answer1",
@@ -330,9 +463,9 @@ const AdminQuestions = () => {
       <br />
       <h1>Total questions: {questions?.totalResults}</h1>
       <div className="header-tablequestion">
-      <Button type="dashed" onClick={showModal} className="btn-addquesiton">
-        Add a new question
-      </Button>
+        <Button type="dashed" onClick={showModal} className="btn-addquesiton">
+          Add a new question
+        </Button>
       </div>
       <Form form={form} component={false}>
         <Table
@@ -345,17 +478,18 @@ const AdminQuestions = () => {
           columns={mergedColumns}
           dataSource={dataSource}
           onChange={handPageChange}
-          pagination={{
-            total: totalRecord,
-            current: currentPage,
-            pageSize: currentPageSize,
-            showLessItems: true,
-            showSizeChanger: true,
-          }}
+          pagination={true}
+          // pagination={{
+          //   total: totalRecord,
+          //   current: currentPage,
+          //   pageSize: currentPageSize,
+          //   showLessItems: true,
+          //   showSizeChanger: true,
+          // }}
         />
       </Form>
       <Modal
-        title="Add a newa question"
+        title="Add a new question"
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
@@ -474,8 +608,8 @@ const AdminQuestions = () => {
               <Option value={answers.answer4} />
             </Select>
           </Form.Item>
-          <Form.Item className="button" style={{display:'flex'} }>
-            <Button onClick={handleCancel} style={{marginRight: 10}} >
+          <Form.Item className="button" style={{ display: "flex" }}>
+            <Button onClick={handleCancel} style={{ marginRight: 10 }}>
               Cancel
             </Button>
             <Button type="primary" htmlType="submit">

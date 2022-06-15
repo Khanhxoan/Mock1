@@ -9,7 +9,7 @@
 - Layout.js: Chứa layout chính của app
 - folder admin: Là layout của admin display
     + admin-question: layout của trang get list questions, edit, create question
-    + admin-answer: layout của trang get list users và create User
+    + admin-user: layout của trang get list users và create User
 - folder user: Là user display
     + setting.js: là file lựa chọn số câu hỏi
     + questions.js: là file hiển thị bài test

@@ -80,10 +80,11 @@ function App() {
     isFetchingUpdateUser;
 
   // Refresh token
-  useEffect(() => {
+  useEffect( () => {
     if (accessToken && refreshToken) {
-      tokenExpired(accessToken, () => {
-        refresh(refreshToken, dispatch);
+      console.log(accessToken);
+      tokenExpired(accessToken, async () => {
+        await refresh(refreshToken, dispatch);
       });
     }
   }, [accessToken, refreshToken]);

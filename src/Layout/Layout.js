@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import "./layout.css";
 import { logoutUser } from "../redux/apiRequest";
 
-
 const { Header, Content, Footer } = Layout;
 const LayoutQuiz = () => {
   // state redux

@@ -1,11 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import {
-  createUser,
-  getUsers,
-  updateUser,
-} from "../../../redux/apiRequest";
+import { useEffect, useRef, useState } from "react";
+import { createUser, getUsers, updateUser } from "../../../redux/apiRequest";
 import {
   Button,
   Table,
@@ -17,18 +13,21 @@ import {
   Typography,
   Popconfirm,
   Tooltip,
+  Space,
 } from "antd";
 import {
   UserAddOutlined,
   RollbackOutlined,
   EditOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
 import "./Admin-user.css";
 import { Option } from "antd/lib/mentions";
+import Highlighter from "react-highlight-words";
 
 const AdminUser = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentPageSize, setCurrentPageSize] = useState(10);
+  const [currentPageSize, setCurrentPageSize] = useState(300);
   const [totalRecord, setTotalRecord] = useState(10);
   const [dataSource, setDataSource] = useState([]);
 
@@ -53,7 +52,7 @@ const AdminUser = () => {
   const [editingId, setEditingId] = useState("");
   const isEditing = (record) => record.id === editingId;
 
-  // eidt, cancel, save
+  // handleEdit
   const edit = (record) => {
     console.log(record);
     form.setFieldsValue({
@@ -65,23 +64,26 @@ const AdminUser = () => {
     });
     setEditingId(record.id);
   };
+
+  // handle Cancel edit
   const cancel = () => {
     setEditingId("");
   };
 
+  // handleSave
   const save = async (id) => {
-    console.log(id);
     const newUser = await form.validateFields();
-    console.log(id);
     await updateUser(accessToken, newUser, dispatch, id);
     setEditingId("");
     setFlag(!flag);
   };
 
+  // handleBack
   const handleBack = () => {
     navigate("/admin");
   };
 
+  // useEffect update table
   useEffect(() => {
     setDataSource(userList);
     console.log(userList);
@@ -98,17 +100,128 @@ const AdminUser = () => {
     }
   }, [flag]);
 
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-  };
-
+  // Handle pageChange
   const handPageChange = (e) => {
+    console.log(e)
     setCurrentPage(e.current);
     setCurrentPageSize(e.pageSize);
-    getUsers(accessToken, dispatch, currentPageSize, e.current).then((res) =>
-      console.log(res)
-    );
+    // getUsers(accessToken, dispatch, currentPageSize, e.current).then((res) =>
+    //   console.log(res)
+    // );
   };
+
+  // ----------Handle search, reset
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef(null);
+
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText("");
+  };
+
+  // ---------- get columnSearchProps
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
+      <div
+        style={{
+          padding: 8,
+        }}
+      >
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{
+            marginBottom: 8,
+            display: "block",
+          }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({
+                closeDropdown: false,
+              });
+              setSearchText(selectedKeys[0]);
+              setSearchedColumn(dataIndex);
+            }}
+          >
+            Filter
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined
+        style={{
+          color: filtered ? "#1890ff" : undefined,
+          fontSize: 16,
+        }}
+      />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{
+            backgroundColor: "#ffc069",
+            padding: 0,
+          }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ""}
+        />
+      ) : (
+        text
+      ),
+  });
+
+  // -------------
+
   // Edittablecell
   const EditableCell = ({
     editing,
@@ -154,7 +267,6 @@ const AdminUser = () => {
             <Select
               placeholder="Please select correct answer"
               defaultValue={record.answer2}
-              onChange={handleChange}
             >
               <Option value={"admin"} />
               <Option value={"user"} />
@@ -166,23 +278,37 @@ const AdminUser = () => {
     );
   };
 
-  // column của bảng
+  // column table
   const columns = [
     {
       title: "Username",
       dataIndex: "username",
       editable: true,
+      ...getColumnSearchProps("username"),
     },
     {
       title: "Email",
-      width: "35%" ,
+      width: "35%",
       dataIndex: "email",
       editable: true,
+      ...getColumnSearchProps("email"),
     },
     {
       title: "Role",
       dataIndex: "role",
       editable: true,
+      filters: [
+        {
+          text: "admin",
+          value: "admin",
+        },
+        {
+          text: "user",
+          value: "user",
+        },
+      ],
+      // filter role
+      onFilter: (value, record) => record.role.indexOf(value) === 0,
     },
     {
       title: "Avatar",
@@ -238,6 +364,7 @@ const AdminUser = () => {
     };
   });
 
+  // handle create user
   const handleCreateUser = async (values) => {
     const newUser = {
       username: values.username,
@@ -251,11 +378,13 @@ const AdminUser = () => {
     setIsModalVisible(false);
   };
 
+  // Show modal
   const showModal = () => {
     setIsModalVisible(true);
     form.resetFields();
   };
 
+  // handle cancel Create
   const handleCancel = () => {
     setIsModalVisible(false);
   };
@@ -268,9 +397,18 @@ const AdminUser = () => {
       <Tooltip title="Back" color={"#87d068"}>
         <Button onClick={handleBack} icon={<RollbackOutlined />} />
       </Tooltip>
-      <br/>
-      <h1 className="h1">Total users: {totalUsers} {<Button type="dashed" onClick={showModal} icon={<UserAddOutlined />} />}</h1>
-      
+      <br />
+      <h1 className="h1">
+        Total users: {totalUsers}{" "}
+        {
+          <Button
+            type="dashed"
+            onClick={showModal}
+            icon={<UserAddOutlined />}
+          />
+        }
+      </h1>
+
       <Form component={false} form={form}>
         <Table
           components={{
@@ -282,17 +420,18 @@ const AdminUser = () => {
           dataSource={dataSource}
           rowClassName="editable-row"
           onChange={handPageChange}
-          pagination={{
-            total: totalRecord,
-            current: currentPage,
-            pageSize: currentPageSize,
-            showLessItems: true,
-            showSizeChanger: true,
-          }}
+          pagination={true}
+          // pagination={{
+          //   total: totalRecord,
+          //   current: currentPage,
+          //   pageSize: currentPageSize,
+          //   showLessItems: true,
+          //   showSizeChanger: true,
+          // }}
         />
       </Form>
       <Modal
-        title="Add new user"
+        title="Add a new user"
         visible={isModalVisible}
         footer={null}
         closable={null}
