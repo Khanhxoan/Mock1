@@ -1,7 +1,16 @@
 .space-admin {
-    display: block;
-    height: 300px;    
-    padding-top: 30px;
+    display: flex;
+    justify-content: space-evenly;
+    height: 100px; 
+    margin-top: 200px;
+}
+.item {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+.item > h1 {
+    margin: auto;
 }
 
 .btn-admin {

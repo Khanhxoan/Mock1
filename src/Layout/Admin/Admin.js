@@ -1,9 +1,12 @@
-import { Button, Space } from 'antd'
+import { Button, Image, Space } from 'antd'
 import React from 'react'
-import { Navigate, Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
+import { UserOutlined, QuestionOutlined } from '@ant-design/icons'
+import './Admin.css'
+
 
 const Admin = () => {
-    const navigate= useNavigate()
+  const navigate= useNavigate()
     const redirectUsers = () => {
        navigate('/admin/user')
     }
@@ -13,9 +16,15 @@ const Admin = () => {
     }
   return (
     <Space size='small' className="space-admin">
-        <Button onClick={redirectUsers} className="btn-admin">Users</Button>
-        <Button onClick={redirectQuestions} className="btn-admin">Questions</Button>
-        <Outlet/>
+      <div className='item'>
+        <UserOutlined onClick={redirectUsers} className='user' title="Users" style={{fontSize: 200}}/>
+        <h1 className='user' >USERS</h1>
+      </div>
+      <div className='item'>
+        <QuestionOutlined  onClick={redirectQuestions} className="admin-question" title="Questions" style={{fontSize: 200}}/>
+        <h1 className="admin-question">QUESTIONS</h1>
+      </div>
+      <Outlet/>
     </Space>
   )
 }

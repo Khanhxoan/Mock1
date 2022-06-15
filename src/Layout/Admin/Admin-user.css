@@ -1,0 +1,16 @@
+.input-container {
+    display: flex;
+}
+.input-createuser {
+    flex: 1;
+}
+
+.button {
+    display: flex;
+    margin: auto;
+}
+
+.btn-createuser {
+    width: 70px;
+    margin-right: 10px;
+}

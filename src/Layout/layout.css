@@ -1,28 +1,28 @@
-.navbar-container{
-    display: flex;
-    flex-direction: row;
+.navbar-container {
+  display: flex;
+  flex-direction: row;
 }
-.navbar-home{
-    color:rgb(163, 162, 162);
+.navbar-home {
+  color: rgb(163, 162, 162);
 }
 .navbar-login {
-    color:rgb(163, 162, 162);
+  color: rgb(163, 162, 162);
 }
-.navbar-item{
-    color:rgb(255, 255, 255);
-    border-radius: 6px;
-    font-size: 16px;
-    margin-right: 10px;
+.navbar-item {
+  color: rgb(255, 255, 255);
+  border-radius: 6px;
+  font-size: 16px;
+  margin-right: 10px;
 }
-.navbar-user{
-    color: rgb(0, 154, 165);
-    font-size: large;
-    margin-right: 20px;
+.navbar-user {
+  color: rgb(0, 154, 165);
+  font-size: large;
+  margin-right: 20px;
 }
 .navbar-logout {
-    color:rgb(156, 156, 156);
-    padding:0.35rem;
+  color: rgb(156, 156, 156);
+  padding: 0.35rem;
 }
-.avatar{
-    margin-right: 30px;
+.avatar {
+  margin-right: 30px;
 }

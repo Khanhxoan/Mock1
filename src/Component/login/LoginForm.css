@@ -1,12 +1,3 @@
-.form-login-div {
-  display: block;
-  width: 80%;
-}
-
-.login-form {
-  width: 100%;
-  align-items: center;
-}
 .login-form-button {
     color: black;
     background-color: wheat;
@@ -21,4 +12,13 @@
 .button {
   display: flex;
   flex-direction: row;
+}
+.login-form {
+  width: 500px;
+  justify-content: center;
+  margin: auto;
+  
+}
+.div.ant-col.form-wrapped {
+  justify-content: center;
 }
